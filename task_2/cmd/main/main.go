@@ -10,9 +10,9 @@ import (
 
 func main() {
 	fmt.Println("Palindrome solution:")
-	fmt.Println(palindrome.IsPalindromeFirst("hello"))
-	fmt.Println(palindrome.IsPalindromeSecond("hello"))
-	fmt.Println(palindrome.IsPalindromeThird("hello"))
+	fmt.Println(palindrome.IsPalindromeFirst(variables.PalindromeStr))
+	fmt.Println(palindrome.IsPalindromeSecond(variables.PalindromeStr))
+	fmt.Println(palindrome.IsPalindromeThird(variables.PalindromeStr))
 
 	fmt.Println("\nMap task solution:")
 	fmt.Println(mapping.Mapping(variables.Slice))
