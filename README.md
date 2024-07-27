@@ -2,7 +2,7 @@
 
 ## How to run?
 
-> go to the main folder and run a command:
+> go to the root folder and run a command:
 ```bash
 go run cmd/main/main.go -shape circle -radius 10
 # or
