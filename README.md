@@ -5,5 +5,7 @@
 > go to the main folder and run a command:
 
 ```bash
-go run .
+cd task_3
+
+go run cmd/main/main.go
 ```
