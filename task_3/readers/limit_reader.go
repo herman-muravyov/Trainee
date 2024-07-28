@@ -1,4 +1,4 @@
-package main
+package readers
 
 import "io"
 
@@ -8,10 +8,6 @@ type limitedReader struct {
 }
 
 func LimitReader(r io.Reader, n int64) io.Reader {
-	if n <= 0 {
-		return &emptyReader{}
-	}
-
 	return &limitedReader{
 		reader: r,
 		limit:  n,
@@ -23,7 +19,7 @@ func (lr *limitedReader) Read(p []byte) (int, error) {
 		return 0, io.EOF
 	}
 
-	// If the length of "p" exceeds the remaining limit, it truncates the byte slice "p"
+	//  If the length of "p" exceeds the remaining limit, it truncates the byte slice "p"
 	// to ensure that only the remaining limit number of bytes are read from the underlying reader
 	if int64(len(p)) > lr.limit {
 		p = p[:lr.limit]

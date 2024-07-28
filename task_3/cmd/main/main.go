@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"io"
 
+	"task/readers"
 	"task/variables"
 )
 
 func main() {
 	buf := bytes.NewBufferString(variables.Str)
-	limitedReader := LimitReader(buf, int64(variables.BytesLength))
+	limitedReader := readers.LimitReader(buf, int64(variables.BytesLength))
 
 	result := make([]byte, 20)
 	n, err := limitedReader.Read(result)
