@@ -40,10 +40,10 @@ func (s *downloadsService) DownloadFile(fileURL, fileName string) error {
 		s.logger.Errorf("Non-OK HTTP status: %v", resp.StatusCode)
 
 		if resp.StatusCode == http.StatusNotFound {
-			return errors.ErrFileNotFound("File not found", fmt.Sprintf("Received status code: %d, - seems to be not found", resp.StatusCode))
+			return errors.ErrFileNotFound("File not found", fmt.Sprintf("Received status code: %d", resp.StatusCode))
 		}
 
-		return errors.ErrDownloadFailed("Failed to download file", fmt.Sprintf("Received status code: %d, - something went wrong", resp.StatusCode))
+		return errors.ErrDownloadFailed("Failed to download file", fmt.Sprintf("Received status code: %d", resp.StatusCode))
 	}
 
 	s.logger.Info("Creating a directory")
