@@ -1,7 +1,7 @@
 package hello
 
 import (
-	"test/variables"
+	"test/pkg/variables"
 )
 
 func Hello() string {
