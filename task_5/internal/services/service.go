@@ -46,11 +46,12 @@ func (s *downloadsService) DownloadFile(fileURL, fileName string) error {
 		return errors.ErrDownloadFailed("Failed to download file", fmt.Sprintf("Received status code: %d, - something went wrong", resp.StatusCode))
 	}
 
+	s.logger.Info("Creating a directory")
+
 	outputDir := variables.Folder
-	err = os.MkdirAll(outputDir, os.ModePerm)
+	err = helpers.CreateOutputDirectory(outputDir, s.logger)
 	if err != nil {
-		s.logger.Errorf("Error creating output directory: %v", err)
-		return errors.ErrDownloadFailed("Failed to create output directory", err.Error())
+		return err
 	}
 
 	filePath := filepath.Join(outputDir, fileName)
