@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"io"
 
-	"task/readers"
-	"task/variables"
+	"task/internal/readers"
+	"task/pkg/variables"
 )
 
 func main() {
