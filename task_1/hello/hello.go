@@ -1,5 +1,9 @@
 package hello
 
+import (
+	"test/variables"
+)
+
 func Hello() string {
-	return "Hello."
+	return variables.Str
 }

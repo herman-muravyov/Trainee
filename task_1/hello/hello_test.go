@@ -1,9 +1,12 @@
 package hello 
 
-import "testing"
+import (
+	"testing"
+	"test/variables"
+)
 
 func TestHello(t *testing.T) {
-	exp := "Hello."
+	exp := variables.Str
 	call := Hello()
 	if call != exp {
 		t.Errorf("Func's call is: %q; we want: %s", call, exp)
