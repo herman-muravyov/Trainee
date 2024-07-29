@@ -26,5 +26,5 @@ func main() {
 
 	logger.Infof("File has been downloaded from the URL: %s", flags.Url)
 
-	fmt.Printf("File is successful downloaded from the URL: %s\nOutput is here: %s", flags.Url, flags.Output)
+	fmt.Printf("File is successful downloaded from the URL: %s\nOutput is here: outputs/%s", flags.Url, flags.Output)
 }

@@ -5,8 +5,10 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 	"task/internal/services/helpers"
 	"task/internal/services/interfaces"
+	"task/internal/services/variables"
 	"task/pkg/errors"
 	"task/pkg/logging"
 )
@@ -44,16 +46,25 @@ func (s *downloadsService) DownloadFile(fileURL, fileName string) error {
 		return errors.ErrDownloadFailed("Failed to download file", fmt.Sprintf("Received status code: %d, - something went wrong", resp.StatusCode))
 	}
 
-	s.logger.Info("Creating output path...")
+	outputDir := variables.Folder
+	err = os.MkdirAll(outputDir, os.ModePerm)
+	if err != nil {
+		s.logger.Errorf("Error creating output directory: %v", err)
+		return errors.ErrDownloadFailed("Failed to create output directory", err.Error())
+	}
 
-	file, err := os.Create(fileName)
+	filePath := filepath.Join(outputDir, fileName)
+
+	s.logger.Infof("Creating file at path: %s", filePath)
+
+	file, err := os.Create(filePath)
 	if err != nil {
 		s.logger.Errorf("Error creating file: %v", err)
 		return errors.ErrDownloadFailed("Failed to create file", err.Error())
 	}
 	defer file.Close()
 
-	s.logger.Info("Coping a body from the response to the output file...")
+	s.logger.Info("Copying body from the response to the output file...")
 
 	_, err = io.Copy(file, resp.Body)
 	if err != nil {
@@ -61,6 +72,6 @@ func (s *downloadsService) DownloadFile(fileURL, fileName string) error {
 		return errors.ErrDownloadFailed("Failed to write to file", err.Error())
 	}
 
-	s.logger.Infof("File successfully downloaded to %s", fileName)
+	s.logger.Infof("File successfully downloaded to %s", filePath)
 	return nil
 }
