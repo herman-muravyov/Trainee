@@ -1,7 +1,6 @@
 #! /bin/bash
 
 source ./scripts/assets/set_color.sh
-source ./scripts/pkg/inputs/inputs.sh
 
 function is_url()
 {

@@ -1,5 +1,7 @@
 #! /bin/bash
 
+source ./scripts/assets/set_color.sh
+
 function output_validator()
 {
     local output=$1
