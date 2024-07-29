@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"task/shapes"
-	"task/utils"
-	"task/validators"
+	"task/internal/shapes"
+	"task/pkg/utils"
+	"task/pkg/validators"
 )
 
 func main() {

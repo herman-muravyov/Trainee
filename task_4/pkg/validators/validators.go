@@ -2,7 +2,7 @@ package validators
 
 import (
 	"log"
-	"task/utils"
+	"task/pkg/utils"
 )
 
 func ValidateFlags(flags utils.Flags) {

@@ -2,9 +2,9 @@ package shapes
 
 import (
 	"log"
-	"task/calculations"
-	"task/interfaces"
-	"task/utils"
+	"task/internal/calculations"
+	"task/internal/interfaces"
+	"task/pkg/utils"
 )
 
 func CreateShape(flags utils.Flags) interfaces.Shape {
