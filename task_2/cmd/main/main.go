@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"task/palindrome"
-	"task/mapping"
-	"task/variables"
-	"task/stringers"
+	"task/internal/palindrome"
+	"task/internal/mapping"
+	"task/internal/stringers"
+	"task/pkg/variables"
 )
 
 func main() {

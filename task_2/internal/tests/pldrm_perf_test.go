@@ -2,7 +2,7 @@ package tests
 
 import (
     "testing"
-    "task/palindrome"
+    "task/internal/palindrome"
 )
 
 func BenchmarkPalindromeFirstOptimization(b *testing.B) {

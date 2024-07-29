@@ -2,7 +2,7 @@ package tests
 
 import (
 	"testing"
-	"task/stringers"
+	"task/internal/stringers"
 )
 
 func BenchmarkReverseWordsFirstOptimization(b *testing.B) {

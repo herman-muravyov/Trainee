@@ -2,8 +2,8 @@ package tests
 
 import (
     "testing"
-    "task/mapping"
-    "task/variables"
+    "task/internal/mapping"
+    "task/pkg/variables"
 )
 
 func BenchmarkMapFirstOptimization(b *testing.B) {
