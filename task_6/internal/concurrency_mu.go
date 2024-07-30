@@ -6,10 +6,17 @@ import (
 	"task/pkg/types"
 )
 
-func Baking(id, t1 int, bakeCh chan<- types.Cake, wg *sync.WaitGroup) {
+type SyncMutex struct {
+	mutex sync.Mutex
+}
+
+func (mu *SyncMutex) Baking(id, t1 int, bakeCh chan<- types.Cake, wg *sync.WaitGroup) {
+	defer wg.Done()
 	bakeTime := id + rand.Intn(t1+1)
 
-	defer wg.Done()
+	mu.mutex.Lock()
+	defer mu.mutex.Unlock()
+
 	backings := types.Cake{
 		BakedBy:  id,
 		BakeTime: bakeTime,
@@ -17,19 +24,21 @@ func Baking(id, t1 int, bakeCh chan<- types.Cake, wg *sync.WaitGroup) {
 	bakeCh <- backings
 }
 
-func Packing(
+func (mu *SyncMutex) Packing(
 	id,
 	t2 int,
 	bakeChan <-chan types.Cake,
 	packChan chan<- types.Cake,
 	wg *sync.WaitGroup,
 ) {
+	defer wg.Done()
 	packTime := id + rand.Intn(t2+1)
 
-	defer wg.Done()
 	for cake := range bakeChan {
+		mu.mutex.Lock()
 		cake.PackedBy = id
 		cake.PackTime = packTime
+		mu.mutex.Unlock()
 
 		packChan <- cake
 	}
