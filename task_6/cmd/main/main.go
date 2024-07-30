@@ -2,52 +2,46 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"sync"
+	"task/internal"
 	"task/internal/variables"
 	"task/pkg/types"
-	"time"
 )
 
-/*
-	Using "Pipe" pattern
-*/
-
-var wg sync.WaitGroup
-
-func baking(id, t1 int, bakeCh chan<- types.Cake, wg *sync.WaitGroup) chan<- types.Cake {
-	// bakeTime - to generate a random number in the range, so that the baking time varies in the range i +- t1
-	bakeTime := id + rand.Intn(2*t1+1) - t1
-
-	go func() {
-		defer wg.Done()
-		time.Sleep(time.Duration(t1) * time.Millisecond)
-		backings := types.Cake{
-			BakedBy:  id,
-			BakeTime: bakeTime,
-		}
-
-		bakeCh <- backings
-	}()
-
-	return bakeCh
-}
-
 func main() {
+	wg := sync.WaitGroup{}
+	mu := internal.SyncMutex{}
+
 	bakeCh := make(chan types.Cake)
+	packCh := make(chan types.Cake)
 
 	for i := 0; i < variables.K; i++ {
 		wg.Add(1)
-		baking(i, variables.T1, bakeCh, &wg)
+		go mu.Baking(i, variables.T1, bakeCh, &wg)
+		// go internal.Baking(i, variables.T1, bakeCh, &wg)
 	}
 
-	for i := 0; i < variables.K; i++ {
-		cake := <-bakeCh
-		fmt.Printf("Cake baked by %d in %dms\n", cake.BakedBy, cake.BakeTime)
+	for j := 0; j < variables.K; j++ {
+		wg.Add(1)
+		go mu.Packing(j, variables.T2, bakeCh, packCh, &wg)
+		// go internal.Packing(j, variables.T2, bakeCh, packCh, &wg)
 	}
 
 	go func() {
 		wg.Wait()
 		close(bakeCh)
+		close(packCh)
 	}()
+
+	count := 0
+	for cake := range packCh {
+		fmt.Printf("Cake %d: BakedBy=%d, BakeTime=%dms, PackedBy=%d, PackTime=%dms\n",
+			count, cake.BakedBy, cake.BakeTime, cake.PackedBy, cake.PackTime)
+		count++
+		if count >= variables.K {
+			break
+		}
+	}
+
+	fmt.Println("All cakes processed.")
 }
